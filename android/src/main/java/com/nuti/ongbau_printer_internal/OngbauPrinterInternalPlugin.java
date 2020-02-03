@@ -39,7 +39,10 @@ public class OngbauPrinterInternalPlugin implements FlutterPlugin, MethodCallHan
   private Context mContext;
 
 
-  public OngbauPrinterInternalPlugin(Context context){
+  public OngbauPrinterInternalPlugin(){
+  }
+
+  public void setContext(Context context){
     this.mContext = context;
   }
 
@@ -58,18 +61,21 @@ public class OngbauPrinterInternalPlugin implements FlutterPlugin, MethodCallHan
     stateChannel.setStreamHandler(stateStreamHandler);
   }
 
-
-
   @Override
   public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) {
     Log.d(TAG, "onAttachedToEngine called");
+    if (flutterPluginBinding.getApplicationContext() != null) {
+      mContext = flutterPluginBinding.getApplicationContext();
+    }
+
     setupChanel(flutterPluginBinding.getBinaryMessenger());
   }
 
 
   public static void registerWith(PluginRegistry.Registrar registrar) {
     Log.d(TAG, "registerWith called");
-    OngbauPrinterInternalPlugin ongbauPrinterInternalPlugin = new OngbauPrinterInternalPlugin(registrar.context());
+    OngbauPrinterInternalPlugin ongbauPrinterInternalPlugin = new OngbauPrinterInternalPlugin();
+    ongbauPrinterInternalPlugin.setContext(registrar.activity().getApplicationContext());
     ongbauPrinterInternalPlugin.setupChanel(registrar.messenger());
   }
 
