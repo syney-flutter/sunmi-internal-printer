@@ -18,9 +18,9 @@ class TestPrint {
       if (isConnected) {
           internalPrinter.printNewLine();
           //internalPrinter.printLeftRight("Trái 0", "Phải 1", 0);
-          internalPrinter.printCustom("In trái", 0, 0);
-          internalPrinter.printCustom("In phải", 0, 2);
-          internalPrinter.printCustom("In giữa", 0, 1);
+          internalPrinter.printCustom("In trái", 0, 0, false);
+          internalPrinter.printCustom("In phải", 0, 2, false);
+          internalPrinter.printCustom("In giữa", 0, 1, false);
           internalPrinter.printNewLine();
       }
     });

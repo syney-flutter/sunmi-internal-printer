@@ -52,8 +52,11 @@ class OngbauPrinterInternal {
   Future<dynamic> printLeftRight(String string1,String string2,int size) =>
       _channel.invokeMethod('printLeftRight', {'typeDevice': type_device, 'string1': string1, 'string2': string2,'size': size });
 
-  Future<dynamic> printCustom(String message, int size, int align) =>
-      _channel.invokeMethod('printCustom', {'typeDevice': type_device, 'message': message, 'size': size, 'align': align});
+  Future<dynamic> printCustom(String message, int size, int align, bool isBold) =>
+      _channel.invokeMethod('printCustom', {'typeDevice': type_device, 'message': message, 'size': size, 'align': align, 'isBold': isBold});
+
+  Future<dynamic> printText(String message, int size, bool isBold) =>
+      _channel.invokeMethod('printText', {'typeDevice': type_device, 'message': message, 'size': size, 'isBold': isBold});
 
   Future<dynamic> printNewLine() => _channel.invokeMethod('printNewLine', {'typeDevice': type_device});
 

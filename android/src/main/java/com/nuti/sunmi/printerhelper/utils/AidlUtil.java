@@ -268,9 +268,9 @@ public class AidlUtil {
         }
 
         try {
-            String line = String.format("%-15s %15s %n", strLeft, strRight);
-            woyouService.printTextWithFont(line, null, size, null);
-            woyouService.lineWrap(1, null);
+            //String line = String.format("%-15s %15s %n", strLeft, strRight);
+            String line = String.format("%-15s %15s", strLeft, strRight);
+            woyouService.printTextWithFont(line, "", size, null);
 
             result.success(true);
         } catch (RemoteException e) {
@@ -279,14 +279,19 @@ public class AidlUtil {
         }
     }
 
-
-    public void printCustom(String message, int size, int align, MethodChannel.Result result) {
+    public void printCustom(String message, int size, int align, boolean isBold, MethodChannel.Result result) {
         if (woyouService == null) {
             Log.e(TAG, "pringText: woyouService is null");
             return;
         }
 
         try {
+            if (isBold) {
+                woyouService.sendRAWData(ESCUtil.boldOn(), null);
+            } else {
+                woyouService.sendRAWData(ESCUtil.boldOff(), null);
+            }
+
             switch (align) {
                 case 0:
                     // left align
@@ -301,14 +306,31 @@ public class AidlUtil {
                     woyouService.sendRAWData(ESCUtil.alignRight(), null);
                     break;
             }
-
-            woyouService.printTextWithFont(message, null , size,null);
-            woyouService.lineWrap(1, null);
+            woyouService.printTextWithFont(message, "" , size,null);
 
             result.success(true);
         } catch (RemoteException e) {
             e.printStackTrace();
             result.error("write_error", "printCustom", e.getLocalizedMessage());
+        }
+    }
+
+
+    public void printText(String message, int size, boolean isBold) {
+        if (woyouService == null) {
+            Log.e(TAG, "pringText: woyouService is null");
+            return;
+        }
+        try {
+            if (isBold) {
+                woyouService.sendRAWData(ESCUtil.boldOn(), null);
+            } else {
+                woyouService.sendRAWData(ESCUtil.boldOff(), null);
+            }
+
+            woyouService.printTextWithFont(message, "", size, null);
+        } catch (RemoteException e) {
+            e.printStackTrace();
         }
     }
 
@@ -327,7 +349,7 @@ public class AidlUtil {
             }
 
             woyouService.printTextWithFont(content, null, size, null);
-            woyouService.lineWrap(3, null);
+            //woyouService.lineWrap(3, null);
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -343,7 +365,7 @@ public class AidlUtil {
         try {
             woyouService.setAlignment(1, null);
             woyouService.printBitmap(bitmap, null);
-            woyouService.lineWrap(3, null);
+            //woyouService.lineWrap(3, null);
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -369,7 +391,7 @@ public class AidlUtil {
                 woyouService.printBitmap(bitmap, null);
                 woyouService.printText("\nSắp xếp theo chiều dọc\n", null);
             }
-            woyouService.lineWrap(3, null);
+            //woyouService.lineWrap(3, null);
         } catch (RemoteException e) {
             e.printStackTrace();
         }

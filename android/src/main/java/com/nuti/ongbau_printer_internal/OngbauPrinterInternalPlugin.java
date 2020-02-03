@@ -158,8 +158,10 @@ public class OngbauPrinterInternalPlugin implements FlutterPlugin, MethodCallHan
           String message = (String) arguments.get("message");
           int size = (int) arguments.get("size");
           int align = (int) arguments.get("align");
+          boolean isBold = (boolean) arguments.get("isBold");
 
-          mAidlUtil.printCustom(message, size, align, result);
+          mAidlUtil.printCustom(message, size, align, isBold, result);
+
           result.success(true);
         } catch (Exception e){
           result.error("error_printCustom", e.getLocalizedMessage(), null);
@@ -175,6 +177,20 @@ public class OngbauPrinterInternalPlugin implements FlutterPlugin, MethodCallHan
         }
         break;
 
+
+      case "printText":
+        try {
+          String message = (String) arguments.get("message");
+          int size = (int) arguments.get("size");
+          boolean isBold = (boolean) arguments.get("isBold");
+
+          mAidlUtil.printText(message, size, isBold);
+
+          result.success(true);
+        } catch (Exception e){
+          result.error("error_printNewLine", e.getLocalizedMessage(), null);
+        }
+        break;
 
       case "printImage":
         try {
